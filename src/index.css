@@ -4,15 +4,59 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ═══════════════════════════════════════════════
+   PREMIUM DESIGN SYSTEM — Modern Auth UI
+   Only CSS — zero logic changes
+   ═══════════════════════════════════════════════ */
+
 @layer base {
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
   body {
-    @apply bg-[#030712] text-gray-100 antialiased min-h-screen font-['Plus_Jakarta_Sans', sans-serif] relative overflow-x-hidden selection:bg-indigo-500/30;
+    @apply bg-[#030712] text-gray-100 antialiased min-h-screen font-['Plus_Jakarta_Sans',_sans-serif] relative overflow-x-hidden selection:bg-indigo-500/30;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Premium scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #6366f1, #a855f7);
+    border-radius: 999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #818cf8, #c084fc);
   }
 }
 
+/* ═══════════════════════════════════════════════
+   GLASS CARD — Deep frosted glass with aura
+   ═══════════════════════════════════════════════ */
 @layer utilities {
   .glass-card {
-    @apply bg-white/70 dark:bg-[#0b1120]/70 backdrop-blur-2xl border border-white/20 dark:border-white/5 shadow-[0_8px_30px_rgb(0, 0, 0, 0.12)] relative overflow-hidden transition-all duration-500;
+    @apply bg-white/70 dark:bg-[#0b1120]/70 backdrop-blur-2xl border border-white/20 dark:border-white/5 shadow-[0_8px_30px_rgba(0,0,0,0.12)] relative overflow-hidden transition-all duration-500;
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.15),
+      0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+      0 -4px 20px rgba(99, 102, 241, 0.06) inset;
   }
 
   .glass-card::before {
@@ -24,73 +68,246 @@
     @apply opacity-100;
   }
 
-  .glass-input {
-    @apply w-full p-4 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all duration-300;
+  /* Subtle animated border glow on glass card */
+  .glass-card::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg,
+        rgba(99, 102, 241, 0.3),
+        rgba(168, 85, 247, 0.15),
+        transparent 60%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    pointer-events: none;
+    z-index: 0;
   }
 
+  .glass-card:hover::after {
+    opacity: 1;
+  }
+
+  /* ═══════════════════════════════════════════════
+     GLASS INPUT — Elevated input fields
+     ═══════════════════════════════════════════════ */
+  .glass-input {
+    @apply w-full p-4 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none transition-all duration-300;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) inset;
+  }
+
+  .glass-input:focus {
+    border-color: rgba(99, 102, 241, 0.5);
+    box-shadow:
+      0 0 0 3px rgba(99, 102, 241, 0.15),
+      0 0 20px rgba(99, 102, 241, 0.08),
+      0 2px 8px rgba(0, 0, 0, 0.04) inset;
+    transform: translateY(-1px);
+  }
+
+  .glass-input:hover:not(:focus) {
+    border-color: rgba(99, 102, 241, 0.25);
+    background: rgba(255, 255, 255, 0.6);
+  }
+
+  .dark .glass-input:hover:not(:focus) {
+    background: rgba(31, 41, 55, 0.6);
+    border-color: rgba(99, 102, 241, 0.2);
+  }
+
+  /* ═══════════════════════════════════════════════
+     GRADIENT TEXT — Vivid color-shifting text
+     ═══════════════════════════════════════════════ */
   .gradient-text {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 dark:from-indigo-400 dark:via-purple-400 dark:to-emerald-400;
+    background-size: 200% auto;
+    animation: gradient-shift 4s ease infinite;
   }
 
+  /* ═══════════════════════════════════════════════
+     BUTTON PRIMARY — Premium glow-up button
+     ═══════════════════════════════════════════════ */
   .btn-primary {
     @apply w-full py-4 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold shadow-lg shadow-indigo-500/25 transition-all duration-300 transform hover:-translate-y-1 active:translate-y-0 relative overflow-hidden;
+    box-shadow:
+      0 8px 25px -5px rgba(99, 102, 241, 0.4),
+      0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+    letter-spacing: 0.025em;
   }
 
+  .btn-primary:hover {
+    box-shadow:
+      0 14px 35px -5px rgba(99, 102, 241, 0.5),
+      0 0 0 1px rgba(255, 255, 255, 0.15) inset,
+      0 0 60px -10px rgba(99, 102, 241, 0.3);
+  }
+
+  .btn-primary:active {
+    box-shadow:
+      0 4px 15px -3px rgba(99, 102, 241, 0.3),
+      0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+  }
+
+  /* Shimmer sweep on hover */
   .btn-primary::after {
     content: '';
-    @apply absolute top-0 left-0 w-full h-full bg-white/20 -translate-x-full transition-transform duration-500 ease-in-out;
+    @apply absolute top-0 left-0 w-full h-full -translate-x-full;
+    background: linear-gradient(90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent);
+    transition: transform 0.6s ease;
   }
 
   .btn-primary:hover::after {
     @apply translate-x-full;
   }
+
+  /* ═══════════════════════════════════════════════
+     BUTTON — Pulse effect on click
+     ═══════════════════════════════════════════════ */
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .btn-primary:active::before {
+    opacity: 1;
+  }
 }
 
-/* Modern Animations */
+/* ═══════════════════════════════════════════════
+   PREMIUM ANIMATIONS
+   ═══════════════════════════════════════════════ */
+
+/* Gradient text color shift */
+@keyframes gradient-shift {
+
+  0%,
+  100% {
+    background-position: 0% center;
+  }
+
+  50% {
+    background-position: 200% center;
+  }
+}
+
+/* Blob morph — organic floating shapes */
 @keyframes blob {
   0% {
-    transform: translate(0px, 0px) scale(1);
+    transform: translate(0px, 0px) scale(1) rotate(0deg);
   }
 
-  33% {
-    transform: translate(30px, -50px) scale(1.1);
+  25% {
+    transform: translate(30px, -50px) scale(1.1) rotate(2deg);
   }
 
-  66% {
-    transform: translate(-20px, 20px) scale(0.9);
+  50% {
+    transform: translate(-20px, 20px) scale(0.95) rotate(-1deg);
+  }
+
+  75% {
+    transform: translate(15px, -30px) scale(1.05) rotate(1deg);
   }
 
   100% {
-    transform: translate(0px, 0px) scale(1);
+    transform: translate(0px, 0px) scale(1) rotate(0deg);
   }
 }
 
+/* Fade in up — cinematic entry */
 @keyframes fade-in-up {
   0% {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(40px) scale(0.98);
+    filter: blur(4px);
   }
 
   100% {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
+    filter: blur(0px);
   }
 }
 
+/* Gentle float */
 @keyframes float {
 
   0%,
   100% {
-    transform: translateY(0);
+    transform: translateY(0) rotate(0deg);
   }
 
-  50% {
-    transform: translateY(-15px);
+  33% {
+    transform: translateY(-10px) rotate(0.5deg);
+  }
+
+  66% {
+    transform: translateY(-15px) rotate(-0.5deg);
   }
 }
 
+/* Subtle pulse glow */
+@keyframes pulse-glow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.15);
+  }
+
+  50% {
+    box-shadow: 0 0 40px rgba(99, 102, 241, 0.25), 0 0 80px rgba(168, 85, 247, 0.1);
+  }
+}
+
+/* Sparkle / twinkle for accents */
+@keyframes twinkle {
+
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+/* Spin glow ring (loading) */
+@keyframes spin-glow {
+  0% {
+    transform: rotate(0deg);
+    filter: drop-shadow(0 0 6px rgba(99, 102, 241, 0.5));
+  }
+
+  50% {
+    filter: drop-shadow(0 0 12px rgba(168, 85, 247, 0.6));
+  }
+
+  100% {
+    transform: rotate(360deg);
+    filter: drop-shadow(0 0 6px rgba(99, 102, 241, 0.5));
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   ANIMATION CLASSES
+   ═══════════════════════════════════════════════ */
 .animate-blob {
-  animation: blob 8s infinite alternate ease-in-out;
+  animation: blob 10s infinite alternate ease-in-out;
 }
 
 .animate-fade-in-up {
@@ -101,10 +318,167 @@
   animation: float 6s ease-in-out infinite;
 }
 
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.animate-twinkle {
+  animation: twinkle 2s ease-in-out infinite;
+}
+
 .animation-delay-2000 {
   animation-delay: 2s;
 }
 
 .animation-delay-4000 {
   animation-delay: 4s;
+}
+
+/* ═══════════════════════════════════════════════
+   PREMIUM ENHANCEMENTS (no class changes needed)
+   ═══════════════════════════════════════════════ */
+
+/* Loading spinner enhancement */
+.animate-spin {
+  animation: spin-glow 1s linear infinite;
+}
+
+/* Enhance all rounded-3xl cards (glass-card) with subtle noise */
+.glass-card {
+  animation: pulse-glow 5s ease-in-out infinite;
+}
+
+/* Labels — refined typography */
+label {
+  letter-spacing: 0.02em;
+}
+
+/* Links — smooth underline slide */
+a {
+  position: relative;
+  text-decoration: none;
+}
+
+a[class*="text-indigo"]::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1.5px;
+  background: linear-gradient(90deg, #6366f1, #a855f7);
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+a[class*="text-indigo"]:hover::after {
+  width: 100%;
+}
+
+/* Input placeholder animation */
+.glass-input::placeholder {
+  transition: all 0.3s ease;
+}
+
+.glass-input:focus::placeholder {
+  opacity: 0.4;
+  transform: translateX(4px);
+}
+
+/* Subtle noise texture on dark backgrounds */
+.dark body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.02'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.4;
+}
+
+/* Grid pattern enhancement — subtle shimmer */
+div[class*="bg-[linear-gradient(rgba"] {
+  animation: grid-shimmer 8s ease-in-out infinite;
+}
+
+@keyframes grid-shimmer {
+
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   PROFILE CARD PREMIUM HOVER
+   ═══════════════════════════════════════════════ */
+
+/* Elevate the profile avatar glow */
+.group:hover .animate-float {
+  animation-duration: 3s;
+}
+
+/* Info-field cards — micro-interaction depth */
+div[class*="rounded-2xl"][class*="bg-white/40"]:hover,
+div[class*="rounded-2xl"][class*="bg-gray-800/30"]:hover {
+  transform: translateY(-2px);
+  transition: all 0.3s ease;
+}
+
+/* Google Sign-In button — premium lift */
+button[class*="bg-white/80"]:hover,
+button[class*="bg-gray-800/80"]:hover {
+  box-shadow:
+    0 10px 25px -5px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(99, 102, 241, 0.1);
+}
+
+/* Error / Success toast elevation */
+div[class*="text-red-600"],
+div[class*="text-red-400"] {
+  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.1);
+}
+
+div[class*="text-emerald-600"],
+div[class*="text-emerald-400"] {
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.1);
+}
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE POLISH
+   ═══════════════════════════════════════════════ */
+@media (max-width: 640px) {
+  .glass-card {
+    border-radius: 1.5rem;
+  }
+
+  .btn-primary {
+    font-size: 0.95rem;
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   FOCUS ACCESSIBILITY — Premium ring
+   ═══════════════════════════════════════════════ */
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid rgba(99, 102, 241, 0.5);
+  outline-offset: 3px;
+  border-radius: 12px;
 }
